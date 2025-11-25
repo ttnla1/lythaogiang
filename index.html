@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="vi">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carbon Footprint Research</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100%;
+      width: 100%;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    .container {
+      width: 100%;
+      min-height: 100%;
+      padding: 2rem;
+    }
+    
+    .nav-bar {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1.2rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .nav-button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-button:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    
+    .nav-button.active {
+      background: #764ba2;
+    }
+    
+    .page {
+      display: none;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      animation: fadeIn 0.4s ease;
+    }
+    
+    .page.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    h1 {
+      color: #2d3748;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    
+    h2 {
+      color: #4a5568;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .subtitle {
+      color: #667eea;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      font-weight: 500;
+    }
+    
+    .intro-text {
+      color: #4a5568;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .feature-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 1.8rem;
+      border-radius: 10px;
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .feature-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    
+    .feature-desc {
+      font-size: 1rem;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    thead {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      color: #4a5568;
+      font-size: 0.95rem;
+    }
+    
+    tbody tr:hover {
+      background: #f7fafc;
+    }
+    
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .info-section {
+      background: #f7fafc;
+      padding: 1.8rem;
+      border-radius: 10px;
+      margin-top: 2rem;
+      border-left: 4px solid #667eea;
+    }
+    
+    .info-section h3 {
+      color: #2d3748;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+    
+    .info-section p {
+      color: #4a5568;
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+    
+    .two-column-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+    
+    @media (max-width: 968px) {
+      .two-column-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .table-section {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+    
+    .table-section h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+    
+    .table-section table {
+      margin-top: 0;
+    }
+    
+    .visual-diagram {
+      background: linear-gradient(135deg, #f0f4ff 0%, #fff0f5 100%);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 2rem;
+    }
+    
+    .device-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .device-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .device-card {
+      background: white;
+      padding: 1.8rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .device-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+      border-color: rgba(102, 126, 234, 0.3);
+    }
+    
+    .device-card .icon {
+      font-size: 3.5rem;
+      margin-bottom: 0.8rem;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .device-card h3 {
+      margin-bottom: 1.2rem;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+    
+    .device-info-box {
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+      padding: 1rem;
+      border-radius: 10px;
+      margin: 1rem 0;
+      text-align: left;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .device-info-box div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+      padding: 0.2rem 0;
+    }
+    
+    .device-info-box div:last-child {
+      margin-bottom: 0;
+      padding-top: 0.5rem;
+      border-top: 2px solid rgba(102, 126, 234, 0.2);
+      font-weight: 600;
+    }
+    
+    .info-label {
+      color: #718096;
+      font-weight: 500;
+    }
+    
+    .info-value {
+      color: #2d3748;
+      font-weight: 600;
+    }
+    
+    .percentage-box {
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .percentage-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .progress-bar-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    
+    .progress-bar {
+      display: flex;
+      height: 40px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .progress-segment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .progress-segment:hover {
+      opacity: 0.9;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <nav class="nav-bar"><button class="nav-button active" onclick="showPage('home')">🏠 Trang chủ</button> <button class="nav-button" onclick="showPage('survey')">📊 Khảo sát hiện trạng</button> <button class="nav-button" onclick="showPage('page2')">📈 Phân tích dữ liệu</button>
+   </nav>
+   <main><!-- Trang chủ -->
+    <div id="home" class="page active">
+     <h1 id="main-title">Nghiên cứu Carbon Footprint</h1>
+     <div class="subtitle" id="subtitle">
+      Nâng cao hiệu quả sử dụng điện và giảm thiểu khí thải CO₂
+     </div>
+     <div class="intro-text" id="intro-text">
+      Nghiên cứu này tập trung vào việc đánh giá và tối ưu hóa việc sử dụng năng lượng điện trong các hộ gia đình và cơ quan, nhằm giảm thiểu lượng khí thải carbon dioxide (CO₂) ra môi trường. Chúng tôi phân tích các thiết bị điện phổ biến và đề xuất các giải pháp nâng cấp hiệu quả.
+     </div>
+     <div class="features-grid">
+      <div class="feature-card">
+       <div class="feature-icon">
+        💡
+       </div>
+       <div class="feature-title">
+        Nâng cấp hiệu quả sử dụng điện
+       </div>
+       <div class="feature-desc">
+        Áp dụng công nghệ LED và thiết bị tiết kiệm năng lượng để giảm 50-70% điện năng tiêu thụ
+       </div>
+      </div>
+      <div class="feature-card">
+       <div class="feature-icon">
+        🌱
+       </div>
+       <div class="feature-title">
+        Giảm thiểu khí thải CO₂
+       </div>
+       <div class="feature-desc">
+        Mỗi kWh điện tiết kiệm tương đương giảm 0.5-0.8 kg CO₂ thải ra môi trường
+       </div>
+      </div>
+      <div class="feature-card">
+       <div class="feature-icon">
+        📊
+       </div>
+       <div class="feature-title">
+        Khảo sát và phân tích
+       </div>
+       <div class="feature-desc">
+        Thu thập dữ liệu thực tế về thiết bị điện và đưa ra khuyến ngh���� cụ thể cho từng trường hợp
+       </div>
+      </div>
+     </div>
+    </div><!-- Trang khảo sát -->
+    <div id="survey" class="page">
+     <h1 id="survey-title">Khảo sát hiện trạng</h1><!-- Hai bảng song song -->
+     <div class="two-column-layout"><!-- Bảng 1: Hệ thống điện sẵn có -->
+      <div class="table-section">
+       <h2 style="color: #667eea;">📋 Hệ thống điện sẵn có</h2>
+       <table>
+        <thead>
+         <tr>
+          <th>Thiết bị</th>
+          <th>Số lượng</th>
+          <th>Công suất định mức</th>
+          <th>Tổng công suất</th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td>💡 Đèn</td>
+          <td>20</td>
+          <td>55W</td>
+          <td><strong>1.100W</strong></td>
+         </tr>
+         <tr>
+          <td>🌀 Quạt trần</td>
+          <td>4</td>
+          <td>40W</td>
+          <td><strong>160W</strong></td>
+         </tr>
+         <tr>
+          <td>❄️ Máy lạnh</td>
+          <td>2</td>
+          <td>2.000W</td>
+          <td><strong>4.000W</strong></td>
+         </tr>
+         <tr style="background: #e6f0ff; font-weight: 600; border-top: 2px solid #667eea;">
+          <td colspan="3"><strong>Tổng cộng</strong></td>
+          <td><strong>5.260W</strong></td>
+         </tr>
+        </tbody>
+       </table>
+      </div><!-- Bảng 2: Năng lượng tiêu thụ và khí thải -->
+      <div class="table-section">
+       <h2 style="color: #764ba2;">🌍 Năng lượng tiêu thụ và khí thải CO₂</h2>
+       <table>
+        <thead>
+         <tr>
+          <th>Thiết bị</th>
+          <th>Thời gian sử dụng</th>
+          <th>Năng lượng tiêu thụ</th>
+          <th>Khí thải CO₂e</th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td>💡 Đèn</td>
+          <td>3,75 giờ</td>
+          <td><strong>4,125 kWh</strong></td>
+          <td>2,7192 kg</td>
+         </tr>
+         <tr>
+          <td>🌀 Quạt trần</td>
+          <td>3,75 giờ</td>
+          <td><strong>0,6 kWh</strong></td>
+          <td>0,39552 kg</td>
+         </tr>
+         <tr>
+          <td>❄️ Máy lạnh</td>
+          <td>3,75 giờ</td>
+          <td><strong>15 kWh</strong></td>
+          <td>9,888 kg</td>
+         </tr>
+         <tr style="background: #ffe6f0; font-weight: 600; border-top: 2px solid #764ba2;">
+          <td><strong>Tổng cộng</strong></td>
+          <td>5 tiết học</td>
+          <td><strong>19,725 kWh</strong></td>
+          <td><strong>13,00272 kg</strong></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+     </div><!-- Sơ đồ trực quan -->
+     <div class="visual-diagram">
+      <h2 style="text-align: center; color: #2d3748; margin-bottom: 2rem;">📊 Sơ đồ phân bổ năng lượng và khí thải</h2>
+      <div class="device-cards"><!-- Đèn -->
+       <div class="device-card">
+        <div class="icon">
+         💡
+        </div>
+        <h3 style="color: #667eea;">Đèn chiếu sáng</h3>
+        <div class="device-info-box">
+         <div><span class="info-label">Số lượng:</span> <span class="info-value">20 bóng</span>
+         </div>
+         <div><span class="info-label">Công suất/bóng:</span> <span class="info-value">55W</span>
+         </div>
+         <div><span class="info-label">Tổng công suất:</span> <span class="info-value">1.100W</span>
+         </div>
+         <div><span class="info-label">Thời gian sử dụng:</span> <span class="info-value">3,75 giờ</span>
+         </div>
+         <div><span class="info-label">⚡ Năng lượng:</span> <span class="info-value" style="color: #667eea;">4,125 kWh</span>
+         </div>
+         <div><span class="info-label">🌍 Khí thải CO₂e:</span> <span class="info-value" style="color: #764ba2;">2,72 kg</span>
+         </div>
+        </div>
+        <div>
+         <div class="percentage-box" style="background: linear-gradient(135deg, #667eea, #5568d3); color: white;">
+          20,9% năng lượng
+         </div>
+         <div class="percentage-box" style="background: linear-gradient(135deg, #764ba2, #9f7aea); color: white;">
+          20,9% khí thải
+         </div>
+        </div>
+       </div><!-- Quạt trần -->
+       <div class="device-card">
+        <div class="icon">
+         🌀
+        </div>
+        <h3 style="color: #48bb78;">Quạt trần</h3>
+        <div style="text-align: left; margin: 1rem 0; padding: 0.8rem; background: #f7fafc; border-radius: 8px;">
+         <div style="margin-bottom: 0.3rem;">
+          <strong>Số lượng:</strong> 4 quạt
+         </div>
+         <div style="margin-bottom: 0.3rem;">
+          <strong>Công suất:</strong> 40W/quạt
+         </div>
+         <div style="margin-bottom: 0.3rem;">
+          <strong>Tổng công su����t:</strong> 160W
+         </div>
+         <div style="margin-bottom: 0.3rem;">
+          <strong>Thời gian:</strong> 3,75 giờ
+         </div>
+         <div style="margin-bottom: 0.3rem;">
+          <strong>Năng lượng:</strong> 0,6 kWh
+         </div>
+         <div>
+          <strong>Khí thải:</strong> 0,39552 kg CO₂e
+         </div>
+        </div>
+        <div>
+         <div class="percentage-box" style="background: #e6ffe6; color: #48bb78;"><strong>3,0%</strong> tổng năng lượng
+         </div>
+         <div class="percentage-box" style="background: #ffe6f0; color: #48bb78;"><strong>3,0%</strong> tổng khí thải
+         </div>
+        </div>
+       </div><!-- Máy lạnh -->
+       <div class="device-card">
+        <div class="icon">
+         ❄️
+        </div>
+        <h3 style="color: #764ba2;">Máy lạnh</h3>
+        <div class="device-info-box">
+         <div><span class="info-label">Số lượng:</span> <span class="info-value">2 máy</span>
+         </div>
+         <div><span class="info-label">Công suất/máy:</span> <span class="info-value">2.000W</span>
+         </div>
+         <div><span class="info-label">Tổng công suất:</span> <span class="info-value">4.000W</span>
+         </div>
+         <div><span class="info-label">Thời gian sử dụng:</span> <span class="info-value">3,75 giờ</span>
+         </div>
+         <div><span class="info-label">⚡ Năng lượng:</span> <span class="info-value" style="color: #764ba2;">15 kWh</span>
+         </div>
+         <div><span class="info-label">🌍 Khí thải CO₂e:</span> <span class="info-value" style="color: #9f7aea;">9,89 kg</span>
+         </div>
+        </div>
+        <div>
+         <div class="percentage-box" style="background: linear-gradient(135deg, #764ba2, #9f7aea); color: white;">
+          76,1% năng lượng
+         </div>
+         <div class="percentage-box" style="background: linear-gradient(135deg, #9f7aea, #b794f4); color: white;">
+          76,1% khí thải
+         </div>
+        </div>
+       </div>
+      </div><!-- Thanh tiến trình trực quan -->
+      <div class="progress-bar-container">
+       <h4 style="color: #2d3748; margin-bottom: 1rem; text-align: center;">Tỷ lệ tiêu thụ năng lượng</h4>
+       <div class="progress-bar">
+        <div class="progress-segment" style="background: #667eea; width: 20.9%;">
+         💡 20.9%
+        </div>
+        <div class="progress-segment" style="background: #48bb78; width: 3%; font-size: 0.85rem;">
+         🌀 3%
+        </div>
+        <div class="progress-segment" style="background: #764ba2; width: 76.1%;">
+         ❄️ 76.1%
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="info-section">
+      <h3>🌍 Ước tính khí thải theo thời gian</h3>
+      <p><strong>Mỗi ngày học (5 tiết):</strong> 13,00 kg CO₂e<br><strong>Mỗi tuần (5 ngày):</strong> ~65,01 kg CO₂e<br><strong>Mỗi tháng (20 ngày học):</strong> ~260,05 kg CO₂e<br><strong>Mỗi năm học (180 ngày):</strong> ~2.340,49 kg CO₂e</p>
+     </div>
+    </div><!-- Trang phân tích -->
+    <div id="page2" class="page">
+     <h1 id="page2-title">Phân tích dữ liệu và Giải pháp</h1>
+     <div class="info-section">
+      <h3>📈 Phân tích tiêu thụ điện năng</h3>
+      <p>Dựa trên dữ liệu khảo sát, máy lạnh chiếm tới 76% tổng công suất tiêu thụ, tiếp theo là đèn (21%) và quạt trần (3%). Đây là cơ sở quan trọng để xác định ưu tiên nâng cấp thiết bị.</p>
+     </div>
+     <div class="features-grid">
+      <div class="feature-card">
+       <div class="feature-icon">
+        ❄️
+       </div>
+       <div class="feature-title">
+        Nâng cấp máy lạnh Inverter
+       </div>
+       <div class="feature-desc">
+        Tiết kiệm 30-50% điện năng, giảm ~300-400 kg CO₂/tháng
+       </div>
+      </div>
+      <div class="feature-card">
+       <div class="feature-icon">
+        💡
+       </div>
+       <div class="feature-title">
+        Chuyển sang đèn LED
+       </div>
+       <div class="feature-desc">
+        Giảm công suất từ 55W xuống 9W, tiết kiệm 84% điện năng cho chiếu sáng
+       </div>
+      </div>
+      <div class="feature-card">
+       <div class="feature-icon">
+        🌡️
+       </div>
+       <div class="feature-title">
+        Tối ưu nhiệt độ điều hòa
+       </div>
+       <div class="feature-desc">
+        Tăng nhiệt độ lên 26°C có thể giảm 10-15% điện năng tiêu thụ
+       </div>
+      </div>
+     </div>
+     <div class="info-section">
+      <h3>🎯 Kết luận và Khuyến nghị</h3>
+      <p>Việc nâng cấp thiết bị và thay đổi thói quen sử dụng điện có thể giảm từ 40-60% tổng điện năng tiêu thụ, tương đương giảm 300-450 kg CO₂/tháng. Đầu tư ban đầu có thể được hoàn vốn trong 2-3 năm thông qua tiết kiệm tiền điện.</p>
+     </div>
+    </div>
+   </main>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_title: "Nghiên cứu Carbon Footprint",
+      subtitle: "Nâng cao hiệu quả sử dụng điện và giảm thiểu khí thải CO₂",
+      intro_text: "Nghiên cứu này tập trung vào việc đánh giá và tối ưu hóa việc sử dụng năng lượng điện trong các hộ gia đình và cơ quan, nhằm giảm thiểu lượng khí thải carbon dioxide (CO₂) ra môi trường. Chúng tôi phân tích các thiết bị điện phổ biến và đề xuất các giải pháp nâng cấp hiệu quả.",
+      survey_title: "Khảo sát hiện trạng",
+      page2_title: "Phân tích dữ liệu và Giải pháp",
+      background_color: "#667eea",
+      card_color: "#764ba2",
+      text_color: "#2d3748",
+      button_color: "#667eea",
+      accent_color: "#48bb78"
+    };
+    
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      const buttons = document.querySelectorAll('.nav-button');
+      
+      pages.forEach(page => page.classList.remove('active'));
+      buttons.forEach(button => button.classList.remove('active'));
+      
+      document.getElementById(pageId).classList.add('active');
+      event.target.classList.add('active');
+    }
+    
+    async function onConfigChange(config) {
+      const mainTitle = document.getElementById('main-title');
+      const subtitle = document.getElementById('subtitle');
+      const introText = document.getElementById('intro-text');
+      const surveyTitle = document.getElementById('survey-title');
+      const page2Title = document.getElementById('page2-title');
+      
+      if (mainTitle) mainTitle.textContent = config.main_title || defaultConfig.main_title;
+      if (subtitle) subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+      if (introText) introText.textContent = config.intro_text || defaultConfig.intro_text;
+      if (surveyTitle) surveyTitle.textContent = config.survey_title || defaultConfig.survey_title;
+      if (page2Title) page2Title.textContent = config.page2_title || defaultConfig.page2_title;
+      
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const cardColor = config.card_color || defaultConfig.card_color;
+      const buttonColor = config.button_color || defaultConfig.button_color;
+      
+      document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${cardColor} 100%)`;
+      
+      const featureCards = document.querySelectorAll('.feature-card');
+      featureCards.forEach(card => {
+        card.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${cardColor} 100%)`;
+      });
+      
+      const navButtons = document.querySelectorAll('.nav-button');
+      navButtons.forEach(button => {
+        if (!button.classList.contains('active')) {
+          button.style.background = buttonColor;
+        }
+      });
+      
+      const thead = document.querySelectorAll('thead');
+      thead.forEach(head => {
+        head.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${cardColor} 100%)`;
+      });
+    }
+    
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.card_color || defaultConfig.card_color,
+              set: (value) => {
+                config.card_color = value;
+                window.elementSdk.setConfig({ card_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.button_color || defaultConfig.button_color,
+              set: (value) => {
+                config.button_color = value;
+                window.elementSdk.setConfig({ button_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["subtitle", config.subtitle || defaultConfig.subtitle],
+          ["intro_text", config.intro_text || defaultConfig.intro_text],
+          ["survey_title", config.survey_title || defaultConfig.survey_title],
+          ["page2_title", config.page2_title || defaultConfig.page2_title]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a422d27c5c8c7d2',t:'MTc2NDA4NDUxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
