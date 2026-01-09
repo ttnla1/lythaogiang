@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Test ảnh</title>
+</head>
+<body>
+  <h2>Ảnh của mình</h2>
+  <img src="images/anh.jpg" alt="Ảnh minh họa" width="300">
+</body>
+</html>
